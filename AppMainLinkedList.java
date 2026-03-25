@@ -1,20 +1,35 @@
- package com.Employees;
- import com.aman.LinkedList;
-import com.aman.Node;
-import com.calender.ConsoleInput;
+//  package com.Employees;
+//  import com.aman.LinkedList;
+// import com.aman.Node;
+// import com.calender.ConsoleInput;
 
 public class AppMainLinkedList {
 	static final int ADD_EMPLOYEE =1,
 					 DISPLAY =2,
 					 SORT =3,
-					 SORT_EMPLOYEES =3,
+					 BACK =4,
+
 					 ADD_MANAGER=1,
 					 ADD_ENGINEER =2,
 					 ADD_SALSEPERSON=3,
-					 DISPLAY_LAST =3,
-					 DISPLAY_FIRST =2,
+
+
 					 DISPLAY_ALL =1,
-					 BACK =4;
+					 DISPLAY_FIRST =2,
+					 DISPLAY_LAST =3,
+					 DISPLAY_NEXT =4,
+					 DISPLAY_PREVIOUS =5,
+					 BACK_DISPLAY =6,
+
+
+					 SORT_BY_SALARY =1,
+					 SORT_BY_NAME = 2,
+					 SORT_BY_NAME_DESC = 3,
+					 SORT_ALL_MANAGERS = 4,
+					 SORT_ALL_ENGINEERS = 5,
+					 SORT_ALL_SALESPERSONS = 6,
+					 BACK_SORT =7;
+					 
 
 	// static{
 	// 	ADD_MANAGER = ADD_EMPLOYEE =1;
@@ -27,7 +42,7 @@ public class AppMainLinkedList {
 	public static void main(String ... args) {
 //	Employee [] empArr = new Employee[100];
 	LinkedList empList = new LinkedList();
-	int EmpCount = 0;
+	// int EmpCount = 0;
 	int choice = 0;
 
 	
@@ -43,10 +58,10 @@ public class AppMainLinkedList {
 				empList.add(makeEmployee());
 				break;
 			case DISPLAY:
-				display(empList, EmpCount);
+				display(empList);
 				break;
 			case SORT:
-			sortCase(empList, EmpCount);
+			sortCase(empList);
 				break;
 			case BACK:
 				System.err.println("Yoii-chini-chiwo");
@@ -111,55 +126,84 @@ return e;
  
 
 
-static void sortCase(LinkedList empList,int EmpCount){
+static void sortCase(LinkedList empList){
 		int subChoice =0;
 	do{
 		System.out.print("1. sort employees on salary\n"
 			+ "2. Sort employees on name\n"
 			+ "3. Sort employess on name desc\n"
-			+ "4. BACK\r\n");
+			+ "4. Sort all managers\n"
+			+ "5. Sort all engineers\n"
+			+ "6. Sort all Sales Persons\n"
+			+ "7. BACK\r\n");
 
 		subChoice = ConsoleInput.getInt();
 	switch(subChoice) {
-		case 1:
-			sortAllEmployeesOnSalary(empList, EmpCount);
-			display(empList, EmpCount);
+		case SORT_BY_SALARY:
+			sortAllEmployeesOnSalary(empList);
+			displayAll(empList);
 			break;
-		case 2:
-			sortEmployeesOnName(empList, EmpCount);
-			display(empList, EmpCount);
+		case SORT_BY_NAME:
+			sortEmployeesOnName(empList);
+			displayAll(empList);
 			break;
-		case BACK:
-			sortEmployeesOnNameDESC(empList, EmpCount);
-			display(empList, EmpCount);
+		case SORT_BY_NAME_DESC:
+			 sortEmployeesOnNameDESC(empList);
+			 displayAll(empList);
+		     break;
+		case SORT_ALL_MANAGERS:
+			sortAllManagers(empList);
+			break;
+		case SORT_ALL_ENGINEERS:
+			sortAllEngineers(empList);
+			break;
+		case SORT_ALL_SALESPERSONS:
+			sortAllSalesPersons(empList);
+			break;
+			
+		case BACK_SORT:
 			break;
 		}}while(subChoice != 4);
 
 }
-static void display(LinkedList empList,int EmpCount){
+
+
+
+
+static void display(LinkedList empList){
 	int subChoice =0;
 	do{
 		System.out.print("1. Display All emp\n"
 			+ "2. Display first emp\n"
 			+ "3. Display last emp\n"
-			+ "4. BACK\r\n");
+			+ "4.Display next \n"
+			+ "5.Display previous \n"
+			+ "6. BACK\r\n");
 
 		subChoice = ConsoleInput.getInt();
 	switch(subChoice) {
 		case DISPLAY_ALL:
-			displayAll(empList,EmpCount);
+			displayAll(empList);
 			break;
 		case DISPLAY_FIRST:
-			displayFirst(empList,EmpCount);
+			displayFirst(empList);
 			break;
 		case DISPLAY_LAST:
-			displayLast(empList,EmpCount);
+			displayLast(empList);
 			break;
-		}}while(subChoice != 4);
+		case DISPLAY_NEXT:
+			displayNext(empList);
+			break;
+		case DISPLAY_PREVIOUS:
+			displayPrevious(empList);
+			break;
+		case BACK_DISPLAY:
+			break;
+		}}while(subChoice != 6);
 
 }
 
-static void displayFirst(LinkedList empList,int EmpCount) {
+static void displayFirst(LinkedList empList) {
 	Object Temp = empList.getFirst();
 	if( Temp instanceof Manager) {
 		System.out.println("\n Designation : manager \n");
@@ -179,7 +223,58 @@ static void displayFirst(LinkedList empList,int EmpCount) {
 
 }
 
-static void displayAll(LinkedList empList,int EmpCount) {
+static void displayNext(LinkedList empList){
+
+	if(empList.getNextNode() == null){
+		System.out.println("that was the last employee");
+		return;
+	}
+	Object Temp = empList.getNext();
+
+
+	if( Temp instanceof Manager) {
+		System.out.println("\n Designation : manager \n");
+		Manager m = (Manager) Temp;
+		System.out.println(m.getInfo());
+	}
+	else if(Temp instanceof Engineer) {
+		System.out.println("\n Designation :Engineer \n");
+		Engineer e = (Engineer) Temp;
+		System.out.println(e.getInfo());
+	}
+	else if(Temp instanceof SalesPerson) {
+		System.out.println("\n Designation :SalesPerson \n");
+		SalesPerson s = (SalesPerson) Temp;
+		System.out.println(s.getInfo());}
+}
+
+
+static void displayPrevious(LinkedList empList){
+
+	if(empList.getPreviousNode() == null){
+		System.out.println("this is the first employee");
+		return;
+	}
+	Object Temp = empList.getNext();
+
+
+	if( Temp instanceof Manager) {
+		System.out.println("\n Designation : manager \n");
+		Manager m = (Manager) Temp;
+		System.out.println(m.getInfo());
+	}
+	else if(Temp instanceof Engineer) {
+		System.out.println("\n Designation :Engineer \n");
+		Engineer e = (Engineer) Temp;
+		System.out.println(e.getInfo());
+	}
+	else if(Temp instanceof SalesPerson) {
+		System.out.println("\n Designation :SalesPerson \n");
+		SalesPerson s = (SalesPerson) Temp;
+		System.out.println(s.getInfo());}
+}
+
+static void displayAll(LinkedList empList) {
 	
 	Object Temp = empList.getFirst();
 
@@ -204,7 +299,7 @@ static void displayAll(LinkedList empList,int EmpCount) {
 		}
 }
 
-static void displayLast(LinkedList empList,int EmpCount) {
+static void displayLast(LinkedList empList) {
 	Object Temp = empList.getLast();
 	if( Temp instanceof Manager) {
 		System.out.println("\n Designation : manager \n");
@@ -224,94 +319,133 @@ static void displayLast(LinkedList empList,int EmpCount) {
 }
 }
 
-static void sortAllEmployeesOnSalary(LinkedList empList,int EmpCount){
-	Object node1 = empList.getFirst();
-	Employee e1 = (Employee) empList.getFirst();
-	for(int i = 0; i< EmpCount;i++) {
-		Object node2 = ((Node) node1).getNext();
-		Employee e2 = (Employee) empList.getNext();
-		for(int j = i+1 ; j < EmpCount ; j++) {
-			if(e1.getTotalSalary()>e2.getTotalSalary()) {
-				Object temp;
-				temp = node1;
-				node1 = node2;
-				node2 = temp;
+static void sortAllEmployeesOnSalary(LinkedList empList)
+	{
+	LinkedList l1 = empList;
+
+	for(int i = 0; i< empList.getCount()-1;i++)
+		{
+		l1.getFirst();
+		for(int j = i ; j <  empList.getCount()-1 ; j++)
+			{
+
+			if(((Employee)l1.getCurrent()).getTotalSalary()>((Employee)l1.getNext()).getTotalSalary()) 
+				{
+				Employee Temp = (Employee)l1.getCurrent();
+				l1.getCurrentNode().nodeSetData(l1.getPreviousNode().getData());
+				l1.getPreviousNode().nodeSetData(Temp);
+				}
 			}
 		}
+				
+	}
+
+static void sortAllEmployeesOnSalaryDESC(LinkedList empList)	{
+	LinkedList l1 = empList;
+
+	for(int i = 0; i< empList.getCount()-1;i++)
+		{
+		l1.getFirst();
+		for(int j = i ; j <  empList.getCount()-1 ; j++)
+			{
+
+			if(((Employee)l1.getCurrent()).getTotalSalary()<((Employee)l1.getNext()).getTotalSalary()) 
+				{
+				Employee Temp = (Employee)l1.getCurrent();
+				l1.getCurrentNode().nodeSetData(l1.getPreviousNode().getData());
+				l1.getPreviousNode().nodeSetData(Temp);
+				}
+			}
+		}
+				
+	}
+
+static void sortEmployeesOnName(LinkedList empList){
+	LinkedList l1 = empList;
+
+	for(int i = 0; i< empList.getCount()-1;i++)
+		{
+		l1.getFirst();
+		for(int j = i ; j <  empList.getCount()-1 ; j++)
+			{
+
+			if(((Employee)l1.getCurrent()).getName().compareTo(((Employee)l1.getNext()).getName())>0) 
+				{
+				Employee Temp = (Employee)l1.getCurrent();
+				l1.getCurrentNode().nodeSetData(l1.getPreviousNode().getData());
+				l1.getPreviousNode().nodeSetData(Temp);
+				}
+			}
+		}
+				
 	}
 	
+static void sortEmployeesOnNameDESC(LinkedList empList){
+	LinkedList l1 = empList;
+
+	for(int i = 0; i< empList.getCount()-1;i++)
+		{
+		l1.getFirst();
+		for(int j = i ; j <  empList.getCount()-1 ; j++)
+			{
+
+			if(((Employee)l1.getCurrent()).getName().compareTo(((Employee)l1.getNext()).getName())<0)
+				{
+				Employee Temp = (Employee)l1.getCurrent();
+				l1.getCurrentNode().nodeSetData(l1.getPreviousNode().getData());
+				l1.getPreviousNode().nodeSetData(Temp);
+				}
+			}
+		}
+				
+	}
+
+static void sortAllManagers(LinkedList empList) {
+	
+	Object Temp = empList.getFirst();
+
+	
+		for(int i = 0 ;i<empList.getCount();i++) {
+			if( Temp instanceof Manager) {
+				System.out.println("\n Designation : manager \n");
+				Manager m = (Manager) Temp;
+				System.out.println(m.getInfo());
+			}
+			Temp = empList.getNext();
+		}
 }
 
-static void sortAllEmployeesOnSalaryDESC(LinkedList empList,int EmpCount){
-	Object node1 = empList.getFirst();
-	Employee e1 = (Employee) empList.getFirst();
-	for(int i = 0; i< EmpCount;i++) {
-		Object node2 = ((Node) node1).getNext();
-		Employee e2 = (Employee) empList.getNext();
-		for(int j = i+1 ; j < EmpCount ; j++) {
-			if(e1.getTotalSalary()< e2.getTotalSalary()) {
-				Object temp;
-				temp = node1;
-				node1 = node2;
-				node2 = temp;
-			}
-		}
-	}
+static void sortAllEngineers(LinkedList empList) {
 	
+	Object Temp = empList.getFirst();
+
+	
+		for(int i = 0 ;i<empList.getCount();i++) {
+			if(Temp instanceof Engineer) {
+				System.out.println("\n Designation :Engineer \n");
+				Engineer e = (Engineer) Temp;
+				System.out.println(e.getInfo());
+			}
+			Temp = empList.getNext();
+		}
 }
 
-static void sortEmployeesOnName(LinkedList empList,int EmpCount){
-	Object node1 = empList.getFirst();
-	Employee e1 = (Employee) empList.getFirst();
-	for(int i = 0; i< empList.getCount()-1;i++) {
-		Object node2 = ((Node) node1).getNext();
-		Employee e2 = (Employee) empList.getNext();
-		for(int j = i+1 ; j < empList.getCount()-1 ; j++) {
-			if(e1.getName().compareToIgnoreCase(e2.getName())>0) {
-				Object temp;
-				temp = node1;
-				node1 = node2;
-				node2 = temp;
-			}
-		}
-	}
+static void sortAllSalesPersons(LinkedList empList) {
 	
-}
-	
+	Object Temp = empList.getFirst();
 
-static void sortEmployeesOnNameDESC(LinkedList empList,int EmpCount){
-	Object node1 = empList.getFirst();
-	Employee e1 = (Employee) empList.getFirst();
-	for(int i = 0; i< EmpCount;i++) {
-		Object node2 = ((Node) node1).getNext();
-		Employee e2 = (Employee) empList.getNext();
-		for(int j = i+1 ; j < EmpCount ; j++) {
-			if(e1.getName().compareToIgnoreCase(e2.getName())<0) {
-				Object temp = node1;
-				node1 = node2;
-				node2 = temp;
-			}
-		}
-	}
 	
+		for(int i = 0 ;i<empList.getCount();i++) {
+			if(Temp instanceof SalesPerson) {
+				System.out.println("\n Designation :SalesPerson \n");
+				SalesPerson s = (SalesPerson) Temp;
+				System.out.println(s.getInfo());
+			}
+			Temp = empList.getNext();
+		}
 }
 
 
 
-//to be implemented futher
-static void sortAllManagers(Employee [] empArr,int EmpCount){
-	for(int i = 0; i< EmpCount;i++) {
-		for(int j = i+1 ; j < EmpCount ; j++) {
-			if(empArr[i] instanceof Manager && empArr[j] instanceof Manager) {
-			if(empArr[i].getTotalSalary()>empArr[j].getTotalSalary()) {
-				Employee temp;
-				temp = empArr[i];
-				empArr[i] = empArr[j];
-				empArr[j] = temp;
-			}
-		}
-		}
-	}
-	
-}	
+
 }

@@ -1,4 +1,4 @@
-package com.Employees;
+// package com.Employees;
 
 public class SalesPerson extends Employee {
 	float commission;

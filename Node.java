@@ -1,4 +1,4 @@
-package com.aman;
+// package com.aman;
 
 public class Node {
 	Object data;
@@ -13,21 +13,14 @@ public class Node {
 	}
 
 
-	public Node getNext() {
-		return next;
-	}
-
-	
-
 	public Object getData() {
 		return data;
 	}
 
-	public Node getPrevious() {
-		return previous;
+
+	public void nodeSetData(Object obj){
+		data = obj;
 	}
-
-
 	
 	
 }

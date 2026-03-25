@@ -1,6 +1,6 @@
- package com.Employees;
+//  package com.Employees;
 
- import com.calender.ConsoleInput;
+//  import com.calender.ConsoleInput;
 
 public class AppMain {
 	static final int ADD_EMPLOYEE =1,

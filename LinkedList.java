@@ -1,4 +1,4 @@
-package com.aman;
+// package com.aman;
 
 public class LinkedList {
 	Node start,
@@ -62,6 +62,9 @@ public class LinkedList {
 		
 		count --;
 	}
+	public Object getCurrent(){
+		return current.data;
+	}
 	
 	
 	public Object getFirst(){
@@ -98,10 +101,38 @@ public class LinkedList {
 		return current.data;
 	}
 	
-	public void swapNode(Node TempNode) {
-		
+	public void swapNextNode(){
+		if(current.next ==  null) return;
+		Node temp = current.next;
+		current.next.previous =  current.previous;
+		current.previous.next = current.next;
+		current.next = current.next.next;
+		current.previous = temp;
+	}
+
+		public void swapPreviousNode(){
+		if(current.previous ==  null) return;
+		 Node temp = current.previous.previous;
+
+		current.next.previous =  current.previous;
+		current.next = current.previous ;
+		current.next.previous  =current;
+		current.previous = temp;
 	}
 	
+
+	public Node getCurrentNode(){
+		return current;
+	}
+
+	
+	public Node getNextNode(){
+		return current.next;
+	}
+	
+	public Node getPreviousNode(){
+		return current.previous;
+	}
 	
 	public int getCount() {
 		return count;
